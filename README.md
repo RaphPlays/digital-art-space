@@ -15,7 +15,7 @@ Final project for Web Design course in Semester 3.
 - Responsive layout for phones and desktops
 
 ## Built with
-HTML, CSS, and JavaScript
+HTML, CSS, and JavaScript.
 
 ## Run it locally
 Open `index.html` in a browser or use VS Code's Live Server.
