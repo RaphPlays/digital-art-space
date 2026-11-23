@@ -1,0 +1,48 @@
+.auth-slot { display: flex; align-items: center; gap: 12px; }
+.auth-button {
+	min-height: 38px; padding: 9px 13px; border: 1px solid rgba(23, 26, 27, 0.22);
+	background: transparent; color: inherit; cursor: pointer;
+	font: inherit; font-size: 12px; font-weight: 700;
+	transition: color 160ms ease, border-color 160ms ease;
+}
+.auth-button:hover { border-color: #bd472f; color: #bd472f; }
+.auth-user { font-size: 12px; font-weight: 700; line-height: 1.3; text-align: right; }
+.auth-user small { display: block; color: #6b7470; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; }
+
+.auth-dialog { overflow-y: auto; }
+.auth-dialog .dialog-copy { padding: 32px; }
+.auth-dialog h2 { margin: 12px 0 0; font-family: var(--serif); font-size: 28px; font-weight: 400; }
+.auth-tabs { display: flex; gap: 6px; margin: 18px 0 22px; border-bottom: 1px solid var(--line); }
+.auth-tab {
+	min-height: 40px; padding: 8px 14px; border: 0; border-bottom: 2px solid transparent;
+	background: transparent; color: #b6bfbb; cursor: pointer; font: inherit; font-size: 12px; font-weight: 700;
+}
+.auth-tab[aria-selected="true"] { border-bottom-color: var(--lime); color: white; }
+.auth-form { display: grid; gap: 14px; }
+.auth-form[hidden] { display: none; }
+.auth-form label { display: grid; gap: 6px; color: #c1c8c4; font-size: 11px; letter-spacing: 0.4px; }
+.auth-form input[type="email"],
+.auth-form input[type="text"],
+.auth-form input[type="password"] {
+	min-height: 44px; padding: 10px 12px; border: 1px solid rgba(255, 255, 255, 0.25);
+	background: #0f1213; color: #f3f4f0; font: inherit; font-size: 14px;
+}
+.auth-form input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.auth-form .auth-check { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.auth-form .auth-check input { margin-top: 3px; }
+.auth-hint { margin: -6px 0 0; color: #89928e; font-size: 11px; }
+.auth-submit {
+	min-height: 46px; border: 0; background: var(--lime); color: var(--ink);
+	cursor: pointer; font: inherit; font-size: 13px; font-weight: 700;
+}
+.auth-submit:disabled { cursor: wait; opacity: 0.6; }
+.auth-message { min-height: 20px; margin: 14px 0 0; font-size: 12px; line-height: 1.5; }
+.auth-message.is-error { color: #ff9d8a; }
+.auth-message.is-ok { color: var(--lime); }
+
+@media (max-width: 520px) {
+	.site-nav { flex-wrap: wrap; row-gap: 8px; }
+	.auth-slot { gap: 8px; }
+	.auth-button { min-height: 34px; padding: 7px 9px; font-size: 11px; }
+	.auth-dialog .dialog-copy { padding: 24px 20px; }
+}
