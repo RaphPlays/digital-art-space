@@ -1,5 +1,4 @@
 const filterButtons = document.querySelectorAll(".filter-button");
-const artworkCards = document.querySelectorAll(".artwork-card");
 const filterCount = document.getElementById("filterCount");
 const artworkDialog = document.querySelector(".artwork-dialog");
 const dialogImage = document.querySelector(".dialog-image");
@@ -80,12 +79,14 @@ const studioContacts = {
 	}
 };
 
-const artistRows = new Map(Array.from(document.querySelectorAll(".artist-row")).map(function (row) {
-	return [row.dataset.artistId, row];
-}));
+function getArtistRow(artistId) {
+	return Array.from(document.querySelectorAll(".artist-row")).find(function (row) {
+		return row.dataset.artistId === artistId;
+	}) || null;
+}
 
 function showArtistProfile(artistId) {
-	const row = artistRows.get(artistId);
+	const row = getArtistRow(artistId);
 	if (!row) return;
 
 	const portrait = row.querySelector(".artist-portrait");
@@ -103,7 +104,7 @@ function showArtistProfile(artistId) {
 		workButton.textContent = workLink.textContent;
 		workButton.addEventListener("click", function () {
 			artistProfileDialog.close();
-			const artworkCard = document.querySelector(workLink.getAttribute("href"));
+			const artworkCard = document.getElementById(workLink.getAttribute("href").slice(1));
 			if (artworkCard) artworkCard.click();
 		});
 		artistProfileWorks.append(workButton);
@@ -112,8 +113,9 @@ function showArtistProfile(artistId) {
 	artistProfileDialog.showModal();
 }
 
-document.querySelectorAll(".artist-arrow").forEach(function (button) {
-	button.addEventListener("click", function () {
+document.addEventListener("click", function (event) {
+	const button = event.target.closest(".artist-arrow");
+	if (button) {
 		const studio = studioContacts[button.dataset.studio];
 		if (!studio) return;
 
@@ -135,7 +137,7 @@ document.querySelectorAll(".artist-arrow").forEach(function (button) {
 			contactDialogLinks.append(link);
 		});
 		contactDialog.showModal();
-	});
+	}
 });
 
 contactDialogClose.addEventListener("click", function () {
@@ -157,7 +159,7 @@ filterButtons.forEach(function (button) {
 			filterButton.setAttribute("aria-pressed", String(isActive));
 		});
 
-		artworkCards.forEach(function (card) {
+		document.querySelectorAll(".artwork-card").forEach(function (card) {
 			const isVisible = selectedFilter === "all" || card.dataset.category === selectedFilter;
 			card.hidden = !isVisible;
 			if (isVisible) visibleCount += 1;
@@ -175,17 +177,16 @@ function showArtworkCard(card) {
 	dialogMeta.textContent = card.dataset.meta;
 	dialogDescription.textContent = card.dataset.description;
 	const artistId = card.dataset.artist;
-	const artistRow = artistRows.get(artistId);
+	const artistRow = getArtistRow(artistId);
 	dialogArtistLink.textContent = artistRow ? artistRow.querySelector(".artist-name h3").textContent : "Unknown artist";
 	dialogArtistLink.dataset.artistId = artistId || "";
 	dialogArtistLink.disabled = !artistRow;
 	artworkDialog.showModal();
 }
 
-artworkCards.forEach(function (card) {
-	card.addEventListener("click", function () {
-		showArtworkCard(card);
-	});
+document.addEventListener("click", function (event) {
+	const card = event.target.closest(".artwork-card");
+	if (card) showArtworkCard(card);
 });
 
 dialogArtistLink.addEventListener("click", function () {
@@ -194,12 +195,12 @@ dialogArtistLink.addEventListener("click", function () {
 	showArtistProfile(artistId);
 });
 
-document.querySelectorAll(".artist-works a").forEach(function (link) {
-	link.addEventListener("click", function (event) {
-		event.preventDefault();
-		const artworkCard = document.querySelector(link.getAttribute("href"));
-		if (artworkCard) artworkCard.click();
-	});
+document.addEventListener("click", function (event) {
+	const link = event.target.closest(".artist-works a");
+	if (!link) return;
+	event.preventDefault();
+	const artworkCard = document.getElementById(link.getAttribute("href").slice(1));
+	if (artworkCard) artworkCard.click();
 });
 
 dialogClose.addEventListener("click", function () {
