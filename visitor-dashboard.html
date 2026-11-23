@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#171a1b">
+<meta name="description" content="Country-level visitor overview for Digital Art Space."><title>Visitor Dashboard | Digital Art Space</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="auth.css"><link rel="stylesheet" href="admin.css">
+<script src="auth.js" defer></script><script src="visitor-dashboard.js" defer></script>
+</head><body id="top" class="admin-page">
+<a class="skip-link" href="#visitor-main">Skip to visitor dashboard</a>
+<header class="site-header"><a class="wordmark" href="/"><span class="wordmark-mark" aria-hidden="true"></span><span>Digital Art Space</span></a><nav class="site-nav"><a href="/admin.html">Admin Studio</a><a href="/feedback-admin.html">Feedback review</a><a href="/">View site</a></nav></header>
+<main id="visitor-main" class="admin-main">
+<section class="admin-intro"><p class="eyebrow">Digital Art Space / Exhibition insights</p><h1>Visitor <em>Dashboard</em></h1><p>Country-level gallery visits over the last 30 days. No visitor IP addresses are stored.</p><p id="visitor-status" class="admin-identity" role="status">Loading visitor statistics…</p></section>
+<section id="visitor-summary" class="admin-stats" aria-label="Visitor summary"><article><span>GALLERY VISITS · 30 DAYS</span><strong id="visitor-total">—</strong></article><article><span>COUNTRIES / REGIONS</span><strong id="visitor-countries">—</strong></article></section>
+<section class="admin-section"><div class="admin-section-heading"><div><p class="eyebrow">Audience reach</p><h2>Visits by country</h2></div></div><div id="visitor-country-list" class="admin-list"><p class="admin-muted">Loading…</p></div><p class="admin-hint">Visits are counted when the gallery data endpoint is requested. This is an aggregate visit count, not a count of unique people. Country data is available on Vercel deployments; local development traffic may not be attributed.</p></section>
+</main><footer class="site-footer"><a class="wordmark wordmark--footer" href="/"><span class="wordmark-mark"></span><span>Digital Art Space</span></a><p>Exhibition insights</p><a class="footer-top" href="#top">↑</a></footer>
+</body></html>
