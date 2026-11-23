@@ -4,6 +4,7 @@
   "private": true,
   "description": "Digital Art Space - Web Design Final Project",
   "dependencies": {
+    "@vercel/blob": "^2.9.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.0"

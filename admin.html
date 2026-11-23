@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171a1b">
+  <meta name="description" content="Manage the Digital Art Space exhibition.">
+  <title>Admin Studio | Digital Art Space</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="admin.css">
+  <script src="auth.js" defer></script>
+  <script type="module" src="admin.js"></script>
+</head>
+<body id="top" class="admin-page">
+  <a class="skip-link" href="#admin-main">Skip to admin tools</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Digital Art Space, home"><span class="wordmark-mark" aria-hidden="true"></span><span>Digital Art Space</span></a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#collection">Collection</a>
+      <a href="/#artists">Artists</a>
+      <a class="edition-link" href="/">View site<span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main id="admin-main" class="admin-main">
+    <section class="admin-intro">
+      <p class="eyebrow">Digital Art Space / Control room</p>
+      <h1>Admin <em>Studio</em></h1>
+      <p>Manage the exhibition's artist profiles, artwork collection, featured scenes, and artist applications.</p>
+      <p id="admin-identity" class="admin-identity" aria-live="polite">Checking administrator access…</p>
+    </section>
+
+    <section id="access-message" class="admin-message" role="status" aria-live="polite" hidden></section>
+
+    <div id="admin-workspace" hidden>
+      <section class="admin-stats" aria-label="Collection summary">
+        <article><span>ARTWORKS</span><strong id="stat-artworks">0</strong></article>
+        <article><span>ARTIST PROFILES</span><strong id="stat-artists">0</strong></article>
+        <article><span>PENDING APPLICATIONS</span><strong id="stat-applications">0</strong></article>
+      </section>
+
+      <section class="admin-section" aria-labelledby="applications-heading">
+        <div class="admin-section-heading">
+          <div><p class="eyebrow">Review queue</p><h2 id="applications-heading">Artist applications</h2></div>
+          <p>Approving an application links the account to an unassigned artist profile and changes it to verified status. Create a profile below first if needed.</p>
+        </div>
+        <div id="application-list" class="admin-list"><p class="admin-muted">No applications to review.</p></div>
+      </section>
+
+      <section class="admin-section" aria-labelledby="artworks-heading">
+        <div class="admin-section-heading">
+          <div><p class="eyebrow">Exhibition content</p><h2 id="artworks-heading">Artworks</h2></div>
+          <p>New images are uploaded to the connected public Blob store. Hero order values 1–10 set slideshow position; lower numbers appear first.</p>
+        </div>
+        <div class="admin-columns">
+          <form id="artwork-form" class="admin-form">
+            <input type="hidden" name="id">
+            <div class="admin-form-heading"><h3 id="artwork-form-title">Add an artwork</h3><button class="admin-reset" type="button" data-reset="artwork">Clear</button></div>
+            <label>Artwork slug<input name="slug" required maxlength="100" placeholder="e.g. new-world"></label>
+            <label>Artist profile<select name="artistSlug" id="artwork-artist" required></select></label>
+            <div class="admin-field-pair">
+              <label>Card title<input name="cardTitle" required maxlength="120"></label>
+              <label>Detail title<input name="dialogTitle" required maxlength="160"></label>
+            </div>
+            <label>Metadata line<input name="meta" maxlength="180" placeholder="Series / medium / context"></label>
+            <label>Description<textarea name="description" rows="3" maxlength="2400"></textarea></label>
+            <div class="admin-field-pair">
+              <label>Category<select name="category" required><option value="worlds">Worlds</option><option value="characters">Characters</option><option value="machines">Machines</option></select></label>
+              <label>Image shape<select name="orientation"><option value="landscape">Landscape</option><option value="portrait">Portrait</option></select></label>
+            </div>
+            <label class="admin-check"><input type="checkbox" name="wide"><span>Use the wider gallery card layout</span></label>
+            <label>Image URL<input name="imageUrl" required maxlength="2048" placeholder="Upload an image or paste an https:// URL"></label>
+            <div class="admin-upload-row"><input id="artwork-image-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif"><button class="admin-secondary" type="button" data-upload="artwork">Upload image</button></div>
+            <p class="admin-hint">JPEG, PNG, WebP, or AVIF; maximum 8 MB per image.</p>
+            <label>Image description (alt text)<input name="imageAlt" maxlength="300"></label>
+            <div class="admin-field-pair">
+              <label>Hero order<input name="heroOrder" type="number" min="1" max="10" placeholder="Not featured"></label>
+              <label>Gallery order<input name="sortOrder" type="number" min="0" max="100000" value="100"></label>
+            </div>
+            <button class="admin-primary" type="submit">Save artwork</button>
+            <p class="admin-form-message" id="artwork-message" role="status" aria-live="polite"></p>
+          </form>
+          <div class="admin-records"><h3>Current artworks</h3><div id="artwork-list" class="admin-list"><p class="admin-muted">Loading artworks…</p></div></div>
+        </div>
+      </section>
+
+      <section class="admin-section" aria-labelledby="artists-heading">
+        <div class="admin-section-heading">
+          <div><p class="eyebrow">People behind the work</p><h2 id="artists-heading">Artist profiles</h2></div>
+          <p>These are the public profile records shown in the gallery. Linked accounts are shown here; unlink an account before deleting its profile.</p>
+        </div>
+        <div class="admin-columns">
+          <form id="artist-form" class="admin-form">
+            <input type="hidden" name="id">
+            <div class="admin-form-heading"><h3 id="artist-form-title">Add an artist profile</h3><button class="admin-reset" type="button" data-reset="artist">Clear</button></div>
+            <label>Profile slug<input name="slug" required maxlength="100" placeholder="e.g. studio-name"></label>
+            <label>Artist / studio name<input name="name" required maxlength="120"></label>
+            <label>Role label<input name="roleLabel" required maxlength="80" placeholder="Game studio, illustrator…"></label>
+            <label>Bio<textarea name="bio" rows="3" maxlength="1600"></textarea></label>
+            <label>Portrait image URL<input name="portraitUrl" maxlength="2048" placeholder="Upload an image or paste an https:// URL"></label>
+            <div class="admin-upload-row"><input id="artist-image-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif"><button class="admin-secondary" type="button" data-upload="artist">Upload portrait</button></div>
+            <p class="admin-hint">JPEG, PNG, WebP, or AVIF; maximum 8 MB per image.</p>
+            <label>Portrait description (alt text)<input name="portraitAlt" maxlength="240"></label>
+            <label>Display order<input name="sortOrder" type="number" min="0" max="100000" value="100"></label>
+            <button class="admin-primary" type="submit">Save artist profile</button>
+            <p class="admin-form-message" id="artist-message" role="status" aria-live="polite"></p>
+          </form>
+          <div class="admin-records"><h3>Current profiles</h3><div id="artist-list" class="admin-list"><p class="admin-muted">Loading profiles…</p></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><a class="wordmark wordmark--footer" href="/"><span class="wordmark-mark" aria-hidden="true"></span><span>Digital Art Space</span></a><p>Admin tools</p><a class="footer-top" href="#top" aria-label="Back to top">↑</a></footer>
+</body>
+</html>

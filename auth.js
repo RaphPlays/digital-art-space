@@ -111,7 +111,15 @@
 				document.dispatchEvent(new CustomEvent("auth:change", { detail: { user: null } }));
 			});
 		});
-		slot.append(who, logOut);
+		if (currentUser.role === "admin") {
+			var adminLink = document.createElement("a");
+			adminLink.className = "auth-button";
+			adminLink.href = "/admin.html";
+			adminLink.textContent = "Admin";
+			slot.append(who, adminLink, logOut);
+		} else {
+			slot.append(who, logOut);
+		}
 	}
 
 	function setUser(user) {
