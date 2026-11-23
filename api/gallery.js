@@ -8,6 +8,20 @@ module.exports = async function (req, res) {
   }
   try {
     const pool = getPool();
+    // Aggregate country-level page visits only; never persist visitor IP addresses.
+    const countryCode = String(req.headers['x-vercel-ip-country'] || '').trim().toUpperCase();
+    if (/^[A-Z]{2}$/.test(countryCode) && countryCode !== 'XX') {
+      try {
+        await pool.execute(
+          'INSERT INTO visitor_daily (visit_date, country_code, visits) VALUES (UTC_DATE(), ?, 1) ' +
+          'ON DUPLICATE KEY UPDATE visits = visits + 1',
+          [countryCode]
+        );
+      } catch (analyticsError) {
+        // Analytics must never make the public gallery unavailable.
+        console.warn('visitor analytics unavailable:', analyticsError.message);
+      }
+    }
     const [artists] = await pool.execute(
       'SELECT id, slug, name, role_label, bio, portrait_url, portrait_alt FROM artists ORDER BY sort_order, id'
     );

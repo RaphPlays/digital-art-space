@@ -13,6 +13,7 @@
     <script src="script.js" defer></script>
     <script src="auth.js" defer></script>
     <script src="gallery.js" defer></script>
+    <script src="feedback.js" defer></script>
 </head>
 <body id="top">
     <a class="skip-link" href="#collection">Skip to the collection</a>
@@ -186,6 +187,18 @@
             <h2 id="dialog-title"></h2>
             <p class="dialog-description"></p>
             <p class="dialog-artist-line">Artist / Studio: <button class="dialog-artist-link" id="dialogArtistLink" type="button"></button></p>
+            <section class="feedback-panel" aria-labelledby="feedback-heading">
+                <div class="feedback-heading-row"><div><p class="eyebrow">Community notes</p><h3 id="feedback-heading">Visitor feedback</h3></div><p id="feedback-summary" aria-live="polite">Loading feedback…</p></div>
+                <div id="feedback-list" class="feedback-list"><p class="feedback-muted">Loading approved feedback…</p></div>
+                <form id="feedback-form" class="feedback-form">
+                    <label>Your rating
+                        <select name="rating"><option value="">No rating</option><option value="5">5 — Excellent</option><option value="4">4 — Very good</option><option value="3">3 — Good</option><option value="2">2 — Fair</option><option value="1">1 — Needs work</option></select>
+                    </label>
+                    <label>Your comment<textarea name="comment" rows="3" maxlength="2000" placeholder="Share a thoughtful note about this artwork (optional if you rate it)."></textarea></label>
+                    <button class="feedback-submit" type="submit">Submit for review</button>
+                    <p id="feedback-message" class="feedback-message" role="status" aria-live="polite">Sign in to leave a rating or comment. New feedback appears after admin approval.</p>
+                </form>
+            </section>
         </div>
     </dialog>
     <dialog class="artwork-dialog contact-dialog" aria-labelledby="contact-dialog-title">

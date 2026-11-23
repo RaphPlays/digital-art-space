@@ -182,6 +182,7 @@ function showArtworkCard(card) {
 	dialogArtistLink.dataset.artistId = artistId || "";
 	dialogArtistLink.disabled = !artistRow;
 	artworkDialog.showModal();
+	document.dispatchEvent(new CustomEvent("artwork:opened", { detail: { slug: card.id, title: card.querySelector(".artwork-caption strong")?.textContent || card.id } }));
 }
 
 document.addEventListener("click", function (event) {

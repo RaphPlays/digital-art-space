@@ -25,7 +25,21 @@ module.exports = async function (req, res) {
       const [applications] = await pool.execute(
         "SELECT u.id, u.email, u.display_name, COALESCE(aa.submitted_at, u.created_at) AS created_at, aa.portfolio_url, aa.artist_bio, aa.statement FROM users u LEFT JOIN artist_applications aa ON aa.user_id = u.id WHERE u.artist_status = 'pending' ORDER BY COALESCE(aa.submitted_at, u.created_at), u.id"
       );
+      const [visitorStats] = await pool.execute(
+        'SELECT country_code AS countryCode, SUM(visits) AS visits FROM visitor_daily ' +
+        'WHERE visit_date >= UTC_DATE() - INTERVAL 29 DAY GROUP BY country_code ORDER BY visits DESC, country_code'
+      );
+      const [visitorTotals] = await pool.execute(
+        'SELECT COALESCE(SUM(visits), 0) AS visits, COUNT(DISTINCT country_code) AS countries ' +
+        'FROM visitor_daily WHERE visit_date >= UTC_DATE() - INTERVAL 29 DAY'
+      );
       return json(res, 200, {
+        visitorStats: {
+          totalVisits: Number(visitorTotals[0].visits || 0),
+          countries: Number(visitorTotals[0].countries || 0),
+          days: 30,
+          byCountry: visitorStats.map(row => ({ countryCode: row.countryCode, visits: Number(row.visits || 0) }))
+        },
         artists: artists.map(function (row) {
           return {
             id: Number(row.id), slug: row.slug, name: row.name, roleLabel: row.role_label,

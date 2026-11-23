@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171a1b"><meta name="description" content="Review visitor comments and ratings.">
+  <title>Feedback Review | Digital Art Space</title>
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="auth.css"><link rel="stylesheet" href="admin.css">
+  <script src="auth.js" defer></script><script src="feedback-admin.js" defer></script>
+</head>
+<body id="top" class="admin-page">
+  <a class="skip-link" href="#feedback-main">Skip to feedback queue</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Digital Art Space, home"><span class="wordmark-mark" aria-hidden="true"></span><span>Digital Art Space</span></a>
+    <nav class="site-nav" aria-label="Main navigation"><a href="/admin.html">Admin Studio</a><a href="/">View site</a></nav>
+  </header>
+  <main id="feedback-main" class="admin-main">
+    <section class="admin-intro"><p class="eyebrow">Digital Art Space / Community</p><h1>Feedback <em>Review</em></h1><p>Approve visitor comments and ratings before they appear in the exhibition.</p><p id="feedback-admin-status" class="admin-identity" role="status">Checking administrator access…</p></section>
+    <section id="feedback-admin-message" class="admin-message" role="status" hidden></section>
+    <section id="feedback-admin-list" class="admin-list"><p class="admin-muted">Loading pending feedback…</p></section>
+  </main>
+  <footer class="site-footer"><a class="wordmark wordmark--footer" href="/"><span class="wordmark-mark" aria-hidden="true"></span><span>Digital Art Space</span></a><p>Community moderation</p><a class="footer-top" href="#top" aria-label="Back to top">↑</a></footer>
+</body></html>
