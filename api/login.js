@@ -1,11 +1,8 @@
-// POST /api/login  { email, password }
 const bcrypt = require('bcryptjs');
 const { getPool } = require('../lib/db');
 const { setSession } = require('../lib/session');
 const { json, guardJsonPost, publicUser } = require('../lib/http');
 
-// Checked when the email does not exist, so a wrong email and a wrong
-// password take about the same time and give the same message.
 const DUMMY_HASH = bcrypt.hashSync('not-a-real-password', 10);
 
 module.exports = async function (req, res) {

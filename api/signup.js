@@ -1,7 +1,3 @@
-// POST /api/signup  { email, displayName, password, wantsArtist? }
-// Everyone starts as a "viewer". Asking to be an artist only sets the
-// application to "pending"; an admin must verify it. The browser can never
-// choose its own role.
 const bcrypt = require('bcryptjs');
 const { getPool } = require('../lib/db');
 const { setSession } = require('../lib/session');

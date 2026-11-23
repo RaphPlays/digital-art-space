@@ -1,4 +1,3 @@
-// POST /api/logout
 const { clearSession } = require('../lib/session');
 const { json, guardJsonPost } = require('../lib/http');
 

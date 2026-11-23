@@ -3,7 +3,7 @@
 A gallery website that showcases digital artworks,
 with artist profiles and contact links.
 
-Final project for Web Design course in Semester 3.
+Final Project for Web Design course in Semester 3.
 
 **Live site:** https://digital-art-space-project.vercel.app
 
