@@ -23,7 +23,7 @@ module.exports = async function (req, res) {
         'FROM artists a LEFT JOIN users u ON u.id = a.user_id ORDER BY a.sort_order, a.id'
       );
       const [applications] = await pool.execute(
-        "SELECT id, email, display_name, created_at FROM users WHERE artist_status = 'pending' ORDER BY created_at, id"
+        "SELECT u.id, u.email, u.display_name, COALESCE(aa.submitted_at, u.created_at) AS created_at, aa.portfolio_url, aa.artist_bio, aa.statement FROM users u LEFT JOIN artist_applications aa ON aa.user_id = u.id WHERE u.artist_status = 'pending' ORDER BY COALESCE(aa.submitted_at, u.created_at), u.id"
       );
       return json(res, 200, {
         artists: artists.map(function (row) {
@@ -35,7 +35,7 @@ module.exports = async function (req, res) {
           };
         }),
         applications: applications.map(function (row) {
-          return { id: Number(row.id), email: row.email, displayName: row.display_name, createdAt: row.created_at };
+          return { id: Number(row.id), email: row.email, displayName: row.display_name, createdAt: row.created_at, portfolioUrl: row.portfolio_url || '', artistBio: row.artist_bio || '', statement: row.statement || '' };
         })
       });
     }

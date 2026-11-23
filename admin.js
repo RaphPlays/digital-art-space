@@ -160,6 +160,16 @@ function renderApplications() {
       `${app.email} · Applied ${app.createdAt ? new Date(app.createdAt).toLocaleDateString() : 'date unavailable'}`,
       [select, approve, actionButton('Reject', 'admin-action--danger', () => decideApplication(app.id, 'reject'))]
     );
+    const main = row.querySelector('.admin-record-main');
+    if (app.artistBio) main.append(element('p', 'admin-application-detail', `Artist bio: ${app.artistBio}`));
+    if (app.statement) main.append(element('p', 'admin-application-detail', `Application: ${app.statement}`));
+    if (app.portfolioUrl) {
+      const link = element('a', 'admin-application-link', 'Open portfolio ↗');
+      link.href = app.portfolioUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      main.append(link);
+    }
     list.append(row);
   });
 }
