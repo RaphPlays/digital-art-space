@@ -13,7 +13,7 @@ module.exports = async function (req, res) {
     );
     const [artworks] = await pool.execute(
       'SELECT w.slug, a.slug AS artist_slug, w.card_title, w.dialog_title, w.meta, w.description, ' +
-      'w.category, w.orientation, w.is_wide, w.image_url, w.image_alt ' +
+      'w.category, w.orientation, w.is_wide, w.image_url, w.image_alt, w.hero_order ' +
       'FROM artworks w JOIN artists a ON a.id = w.artist_id ORDER BY w.sort_order, w.id'
     );
     return json(res, 200, {
@@ -24,7 +24,8 @@ module.exports = async function (req, res) {
         return {
           slug: w.slug, artist: w.artist_slug, cardTitle: w.card_title, dialogTitle: w.dialog_title,
           meta: w.meta, description: w.description, category: w.category, orientation: w.orientation,
-          wide: Boolean(w.is_wide), imageUrl: w.image_url, imageAlt: w.image_alt
+          wide: Boolean(w.is_wide), imageUrl: w.image_url, imageAlt: w.image_alt,
+          heroOrder: w.hero_order === null || w.hero_order === undefined ? null : Number(w.hero_order)
         };
       })
     });

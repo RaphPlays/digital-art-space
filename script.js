@@ -219,70 +219,89 @@ artistProfileDialog.addEventListener("click", function (event) {
 	if (event.target === artistProfileDialog) artistProfileDialog.close();
 });
 
-const heroSlides = Array.from(document.querySelectorAll(".hero-slide"));
-const heroIndicators = Array.from(document.querySelectorAll(".hero-indicator"));
 const heroControls = document.querySelector(".hero-controls");
+const heroSlideBox = document.querySelector(".hero-slides");
 const heroCaption = document.getElementById("heroCaption");
 const heroPrevious = document.getElementById("heroPrevious");
 const heroNext = document.getElementById("heroNext");
 const heroSceneLink = document.getElementById("heroSceneLink");
-const heroNames = ["Night City", "Japantown"];
-const heroArtworkIds = ["night-city", "japantown"];
+
+let heroScenes = [
+	{ name: "Night City", artwork: "night-city" },
+	{ name: "Japantown", artwork: "japantown" }
+];
+let heroSlides = [];
+let heroIndicators = [];
 let activeHeroSlide = 0;
 let heroTimer;
 
-function updateHeroArtworkLink(index) {
-	const title = heroNames[index];
-	heroSceneLink.href = "#" + heroArtworkIds[index];
-	heroSceneLink.setAttribute("aria-label", "Open " + title + " artwork details");
+function collectHero() {
+	heroSlides = Array.from(document.querySelectorAll(".hero-slide"));
+	heroIndicators = Array.from(document.querySelectorAll(".hero-indicator"));
 }
 
-function showHeroSlide(index) {
-	const slideCount = heroSlides.filter(function (slide) {
-		return !slide.hidden;
-	}).length;
-	if (slideCount < 2) return;
+function availableHeroSlides() {
+	return heroSlides.filter(function (slide) { return !slide.hidden; }).length;
+}
 
-	activeHeroSlide = (index + heroSlides.length) % heroSlides.length;
+function updateHeroArtworkLink(index) {
+	const scene = heroScenes[index];
+	if (!scene) return;
+	heroSceneLink.href = "#" + scene.artwork;
+	heroSceneLink.setAttribute("aria-label", "Open " + scene.name + " artwork details");
+}
+
+function showHeroSlide(index, step) {
+	if (availableHeroSlides() < 2) return;
+
+	let next = (index + heroSlides.length) % heroSlides.length;
+	for (let tries = 0; heroSlides[next].hidden && tries < heroSlides.length; tries += 1) {
+		next = (next + (step || 1) + heroSlides.length) % heroSlides.length;
+	}
+	activeHeroSlide = next;
+
 	heroSlides.forEach(function (slide, slideIndex) {
-		const isActive = slideIndex === activeHeroSlide && !slide.hidden;
-		slide.classList.toggle("is-active", isActive);
+		slide.classList.toggle("is-active", slideIndex === activeHeroSlide && !slide.hidden);
 	});
 	heroIndicators.forEach(function (indicator, slideIndex) {
 		const isActive = slideIndex === activeHeroSlide && !heroSlides[slideIndex].hidden;
 		indicator.classList.toggle("is-active", isActive);
 		indicator.setAttribute("aria-pressed", String(isActive));
 	});
-	heroCaption.textContent = heroNames[activeHeroSlide];
+	heroCaption.textContent = heroScenes[activeHeroSlide].name;
 	updateHeroArtworkLink(activeHeroSlide);
 }
 
 heroSceneLink.addEventListener("click", function (event) {
 	event.preventDefault();
-	const artworkCard = document.getElementById(heroArtworkIds[activeHeroSlide]);
+	const scene = heroScenes[activeHeroSlide];
+	const artworkCard = scene && document.getElementById(scene.artwork);
 	if (artworkCard) showArtworkCard(artworkCard);
 });
 
 function startHeroTimer() {
 	window.clearInterval(heroTimer);
-	const availableSlides = heroSlides.filter(function (slide) { return !slide.hidden; }).length;
-	heroControls.hidden = availableSlides < 2;
-	if (availableSlides > 1) {
+	const available = availableHeroSlides();
+	heroControls.hidden = available < 2;
+	if (available > 1) {
 		heroTimer = window.setInterval(function () {
-			showHeroSlide(activeHeroSlide + 1);
+			showHeroSlide(activeHeroSlide + 1, 1);
 		}, 7000);
 	}
 }
 
-heroSlides.forEach(function (slide, index) {
+function watchHeroSlide(slide) {
 	slide.addEventListener("error", function () {
+		const index = heroSlides.indexOf(slide);
 		slide.hidden = true;
-		heroIndicators[index].hidden = true;
+		if (heroIndicators[index]) heroIndicators[index].hidden = true;
 		const availableIndex = heroSlides.findIndex(function (item) { return !item.hidden; });
 		if (availableIndex >= 0) {
 			activeHeroSlide = availableIndex;
-			heroSlides[availableIndex].classList.add("is-active");
-			heroCaption.textContent = heroNames[availableIndex];
+			heroSlides.forEach(function (item, itemIndex) {
+				item.classList.toggle("is-active", itemIndex === availableIndex);
+			});
+			heroCaption.textContent = heroScenes[availableIndex].name;
 			updateHeroArtworkLink(availableIndex);
 		}
 		startHeroTimer();
@@ -290,24 +309,59 @@ heroSlides.forEach(function (slide, index) {
 	if (slide.complete && slide.naturalWidth === 0) {
 		slide.dispatchEvent(new Event("error"));
 	}
-});
+}
 
-heroIndicators.forEach(function (indicator) {
-	indicator.addEventListener("click", function () {
-		showHeroSlide(Number(indicator.dataset.slideTo));
-		startHeroTimer();
+function setHeroScenes(scenes) {
+	if (!Array.isArray(scenes) || scenes.length === 0) return;
+
+	heroScenes = scenes.map(function (scene) {
+		return { name: scene.name, artwork: scene.artwork };
 	});
+	const slides = [];
+	heroControls.querySelectorAll(".hero-indicator").forEach(function (indicator) { indicator.remove(); });
+	scenes.forEach(function (scene, index) {
+		const slide = document.createElement("img");
+		slide.className = "hero-slide" + (index === 0 ? " is-active" : "");
+		slide.src = scene.imageUrl;
+		slide.alt = "";
+		slides.push(slide);
+
+		const dot = document.createElement("button");
+		dot.className = "hero-indicator" + (index === 0 ? " is-active" : "");
+		dot.type = "button";
+		dot.dataset.slideTo = String(index);
+		dot.setAttribute("aria-label", "Show " + scene.name + " scene");
+		dot.setAttribute("aria-pressed", String(index === 0));
+		heroControls.insertBefore(dot, heroNext);
+	});
+	heroSlideBox.replaceChildren.apply(heroSlideBox, slides);
+
+	activeHeroSlide = 0;
+	collectHero();
+	heroSlides.forEach(watchHeroSlide);
+	heroCaption.textContent = heroScenes[0].name;
+	updateHeroArtworkLink(0);
+	startHeroTimer();
+}
+
+heroControls.addEventListener("click", function (event) {
+	const indicator = event.target.closest(".hero-indicator");
+	if (!indicator) return;
+	showHeroSlide(Number(indicator.dataset.slideTo), 1);
+	startHeroTimer();
 });
 
 heroPrevious.addEventListener("click", function () {
-	showHeroSlide(activeHeroSlide - 1);
+	showHeroSlide(activeHeroSlide - 1, -1);
 	startHeroTimer();
 });
 
 heroNext.addEventListener("click", function () {
-	showHeroSlide(activeHeroSlide + 1);
+	showHeroSlide(activeHeroSlide + 1, 1);
 	startHeroTimer();
 });
 
+collectHero();
+heroSlides.forEach(watchHeroSlide);
 updateHeroArtworkLink(activeHeroSlide);
 startHeroTimer();

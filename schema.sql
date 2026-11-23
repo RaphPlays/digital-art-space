@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS artworks (
   is_wide      TINYINT(1)   NOT NULL DEFAULT 0,
   image_url    VARCHAR(500) NOT NULL,
   image_alt    VARCHAR(300) NOT NULL DEFAULT '',
+  hero_order   INT NULL,
   sort_order   INT NOT NULL DEFAULT 0,
   created_by   INT NULL,
   created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -55,5 +56,8 @@ INSERT IGNORE INTO artworks (slug, artist_id, card_title, dialog_title, meta, de
   VALUES ('night-city', (SELECT id FROM artists WHERE slug = 'cd-projekt-red'), 'Night City', 'Night City', 'Cyberpunk 2077 / Environment art', 'A rain-dark urban skyline glows with electric signs and impossible height.', 'worlds', 'landscape', 1, 'Night-City.jpg', 'Night City skyline illuminated by neon signs', 7);
 INSERT IGNORE INTO artworks (slug, artist_id, card_title, dialog_title, meta, description, category, orientation, is_wide, image_url, image_alt, sort_order)
   VALUES ('japantown', (SELECT id FROM artists WHERE slug = 'cd-projekt-red'), 'Japantown', 'Japantown', 'Cyberpunk 2077 / Capture', 'V rides into Japantown, surrounded by the blue and magenta glow of the city after dark.', 'worlds', 'landscape', 1, 'V-in-Japantown.png', 'V looking across Japantown''s neon-lit skyline at night', 8);
+
+UPDATE artworks SET hero_order = 1 WHERE slug = 'night-city' AND hero_order IS NULL;
+UPDATE artworks SET hero_order = 2 WHERE slug = 'japantown' AND hero_order IS NULL;
 
 SELECT (SELECT COUNT(*) FROM artists) AS artists, (SELECT COUNT(*) FROM artworks) AS artworks;

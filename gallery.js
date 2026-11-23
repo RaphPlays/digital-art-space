@@ -102,6 +102,11 @@
 		var count = document.getElementById("filterCount");
 		if (count) count.textContent = "Showing " + works.length + (works.length === 1 ? " work" : " works");
 
+		var scenes = works.filter(function (work) { return typeof work.heroOrder === "number" && safeUrl(work.imageUrl); })
+			.sort(function (a, b) { return a.heroOrder - b.heroOrder; })
+			.map(function (work) { return { name: work.cardTitle, artwork: work.slug, imageUrl: safeUrl(work.imageUrl) }; });
+		if (scenes.length > 0 && typeof setHeroScenes === "function") setHeroScenes(scenes);
+
 		document.dispatchEvent(new CustomEvent("gallery:rendered", { detail: { artworks: works.length, artists: data.artists.length } }));
 	}
 
