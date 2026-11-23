@@ -160,7 +160,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .site-footer > p span { margin-left: 12px; color: var(--ink); }
 .footer-top { display: grid; width: 34px; height: 34px; place-items: center; justify-self: end; border: 1px solid rgba(23,26,27,.25); font-size: 18px; }
 
-.artwork-dialog { position: fixed; width: min(900px, calc(100% - 32px)); max-width: none; max-height: min(90vh, 900px); padding: 0; border: 0; background: #171a1b; color: #f3f4f0; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
+.artwork-dialog { position: fixed; width: min(900px, calc(100% - 32px)); max-width: none; max-height: min(90vh, 900px); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; padding: 0; border: 0; background: #171a1b; color: #f3f4f0; box-shadow: 0 24px 80px rgba(0,0,0,.5); }
 .artwork-dialog::backdrop { background: rgba(9,12,13,.82); backdrop-filter: blur(4px); }
 .dialog-image { display: block; width: 100%; max-height: 62vh; background: #292f30; object-fit: contain; }
 .dialog-close { position: absolute; top: 12px; right: 12px; display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid rgba(255,255,255,.65); border-radius: 50%; background: rgba(23,26,27,.75); color: white; cursor: pointer; font-size: 27px; }
