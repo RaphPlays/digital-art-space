@@ -288,3 +288,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .feedback-message{font-size:.85rem;color:var(--muted,#a9acad)}
 .feedback-message.is-error{color:#ff9c91}
 @media(max-width:600px){.feedback-heading-row{align-items:start;flex-direction:column;gap:.2rem}}
+
+
+.visitor-country-row .admin-record-main{width:100%}
+.visitor-bar{height:7px;margin-top:.65rem;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.visitor-bar span{display:block;height:100%;border-radius:99px;background:#e9c46a}
