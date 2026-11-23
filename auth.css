@@ -46,3 +46,22 @@
 	.auth-button { min-height: 34px; padding: 7px 9px; font-size: 11px; }
 	.auth-dialog .dialog-copy { padding: 24px 20px; }
 }
+
+.auth-form input[type="url"],
+.auth-form textarea {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #0f1213;
+  color: #f3f4f0;
+  font: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+.auth-form textarea { line-height: 1.5; }
+.auth-form input[type="url"]:focus-visible,
+.auth-form textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.application-intro { color: #c1c8c4; font-size: 13px; line-height: 1.6; }
+.artist-application-dialog .dialog-copy { max-height: min(80vh, 760px); overflow-y: auto; }
+.admin-application-detail { margin: 8px 0 0; color: #aeb8b3; font-size: 12px; line-height: 1.55; white-space: pre-wrap; }
+.admin-application-link { display: inline-block; margin-top: 8px; color: var(--lime); font-size: 12px; }
