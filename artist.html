@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171a1b">
+  <meta name="description" content="Manage your verified artist profile and artwork on Digital Art Space.">
+  <title>Artist Studio | Digital Art Space</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="artist.css">
+  <script src="auth.js" defer></script>
+  <script type="module" src="artist.js"></script>
+</head>
+<body id="top" class="artist-page">
+  <a class="skip-link" href="#artist-main">Skip to artist tools</a>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Digital Art Space, home"><span class="wordmark-mark" aria-hidden="true"></span><span>Digital Art Space</span></a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/#collection">Collection</a><a href="/#artists">Artists</a><a class="edition-link" href="/">View site<span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  <main id="artist-main" class="artist-main">
+    <section class="artist-intro"><p class="eyebrow">Digital Art Space / Creator room</p><h1>Artist <em>Studio</em></h1><p>Maintain your public profile and manage the artworks connected to it.</p><p id="artist-identity" class="artist-identity" aria-live="polite">Checking artist access…</p></section>
+    <section id="artist-message" class="artist-message" role="status" aria-live="polite" hidden></section>
+    <div id="artist-workspace" hidden>
+      <section class="artist-panel" aria-labelledby="profile-heading">
+        <div class="artist-panel-heading"><div><p class="eyebrow">Your public presence</p><h2 id="profile-heading">Artist profile</h2></div><p>Your profile is displayed in the exhibition. Your account email and login details are not editable here.</p></div>
+        <form id="profile-form" class="artist-form">
+          <div class="artist-field-pair"><label>Artist / studio name<input name="name" required maxlength="120"></label><label>Role or discipline<input name="roleLabel" required maxlength="120" placeholder="Illustrator, photographer…"></label></div>
+          <label>Biography<textarea name="bio" rows="5" maxlength="1600"></textarea></label>
+          <label>Portrait image URL<input name="portraitUrl" maxlength="500" placeholder="Upload an image or paste an https:// URL"></label>
+          <div class="artist-upload-row"><input id="portrait-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif"><button class="artist-secondary" type="button" data-upload="portrait">Upload portrait</button></div>
+          <label>Portrait alt text<input name="portraitAlt" maxlength="200" placeholder="Describe the portrait for accessibility"></label>
+          <p id="profile-message" class="artist-form-message" role="status"></p>
+          <button class="artist-primary" type="submit">Save profile</button>
+        </form>
+      </section>
+      <section class="artist-panel" aria-labelledby="works-heading">
+        <div class="artist-panel-heading"><div><p class="eyebrow">Your contribution</p><h2 id="works-heading">My artworks</h2></div><p>You can manage only works attached to your verified profile. Featured hero positions remain controlled by the exhibition administrator.</p></div>
+        <div class="artist-columns">
+          <form id="artwork-form" class="artist-form">
+            <input type="hidden" name="id">
+            <div class="artist-form-heading"><h3 id="artwork-form-title">Add an artwork</h3><button class="artist-reset" type="button">Clear</button></div>
+            <label>Artwork slug<input name="slug" required maxlength="80" placeholder="e.g. quiet-morning"></label>
+            <div class="artist-field-pair"><label>Card title<input name="cardTitle" required maxlength="160"></label><label>Detail title<input name="dialogTitle" required maxlength="200"></label></div>
+            <label>Metadata<input name="meta" maxlength="255" placeholder="Series / medium / context"></label>
+            <label>Description<textarea name="description" rows="4" maxlength="2400"></textarea></label>
+            <div class="artist-field-pair"><label>Category<select name="category"><option value="worlds">Worlds</option><option value="characters">Characters</option><option value="machines">Machines</option></select></label><label>Image shape<select name="orientation"><option value="landscape">Landscape</option><option value="portrait">Portrait</option></select></label></div>
+            <label class="artist-check"><input type="checkbox" name="wide"><span>Use the wider gallery card layout</span></label>
+            <label>Image URL<input name="imageUrl" required maxlength="500" placeholder="Upload an image or paste an https:// URL"></label>
+            <div class="artist-upload-row"><input id="artwork-file" type="file" accept="image/jpeg,image/png,image/webp,image/avif"><button class="artist-secondary" type="button" data-upload="artwork">Upload artwork image</button></div>
+            <p class="artist-hint">JPEG, PNG, WebP, or AVIF; maximum 8 MB per image.</p>
+            <label>Image alt text<input name="imageAlt" maxlength="300"></label>
+            <label>Display order<input name="sortOrder" type="number" min="0" max="100000" value="100"></label>
+            <p id="artwork-message" class="artist-form-message" role="status"></p>
+            <button class="artist-primary" type="submit">Save artwork</button>
+          </form>
+          <div id="my-artworks" class="artist-record-list"><p class="artist-muted">Loading your artworks…</p></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><a class="wordmark wordmark--footer" href="/"><span class="wordmark-mark" aria-hidden="true"></span><span>Digital Art Space</span></a><p>A digital exhibition of art, worlds, and imagination.</p><a class="footer-top" href="#top" aria-label="Back to top">↑</a></footer>
+</body>
+</html>
