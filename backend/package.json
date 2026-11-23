@@ -1,0 +1,11 @@
+{
+  "name": "digital-art-space",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Digital Art Space - Web Design final project",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0"
+  }
+}
