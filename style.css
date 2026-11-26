@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap");
+
 @font-face {
 	font-family: "PixelPurl";
 	src: url("PixelPurl-Medium.ttf") format("truetype");
@@ -12,8 +14,8 @@
 	--accent: #f06b4f;
 	--lime: #d8ef69;
 	--line: rgba(255, 255, 255, 0.2);
-	--serif: Georgia, 'Times New Roman', serif;
-	--sans: 'Trebuchet MS', Arial, sans-serif;
+	--serif: "DM Serif Display", Georgia, serif;
+	--sans: "DM Sans", "Trebuchet MS", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
